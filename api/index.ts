@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import artistsReducer from "./routers/artists";
 import albumsReducer from "./routers/albums";
 import tracksReducer from "./routers/tracks";
+import usersRouter from "./routers/users";
 
 const app = express();
 const port = 8000;
@@ -15,6 +16,7 @@ app.use(express.static('public'));
 app.use('/artists', artistsReducer);
 app.use('/albums', albumsReducer);
 app.use('/tracks', tracksReducer);
+app.use('/users', usersRouter);
 
 const run = async () => {
     await mongoose.connect(config.database);
