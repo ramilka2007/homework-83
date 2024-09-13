@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   selectArtist,
   selectIsLoadingArtist,
@@ -12,6 +12,7 @@ import {
   selectAlbums,
   selectIsLoadingAlbum,
 } from '../../features/albums/albumSlice';
+import { NavLink } from 'react-router-dom';
 
 const Albums = () => {
   const dispatch = useAppDispatch();
@@ -37,8 +38,11 @@ const Albums = () => {
       ) : (
         <div>
           <h1 className="mb-2">
-            Artist: {artistOfAlbum ? artistOfAlbum.artist : 'Not found'}
+            Artist: {artistOfAlbum ? artistOfAlbum.name : 'Not found'}
           </h1>
+          <NavLink to="/artists" className="fs-3">
+            Go back to artists
+          </NavLink>
           <hr />
           {albums.length === 0 ? (
             <p>No albums yet</p>

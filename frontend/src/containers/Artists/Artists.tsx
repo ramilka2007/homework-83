@@ -12,7 +12,6 @@ const Artists = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const loading = useAppSelector(selectIsLoadingArtist);
-  console.log(artists);
 
   useEffect(() => {
     dispatch(getArtists());

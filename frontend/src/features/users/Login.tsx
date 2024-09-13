@@ -40,7 +40,7 @@ const Login = () => {
 
     try {
       await dispatch(login(state)).unwrap();
-      navigate('/');
+      navigate('/artists');
     } catch (e) {
       console.error(e);
     }

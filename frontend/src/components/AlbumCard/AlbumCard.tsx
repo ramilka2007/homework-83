@@ -25,7 +25,7 @@ const AlbumCard: React.FC<Props> = ({ album }) => {
       >
         <div className="d-flex align-items-center">
           <ImageCardMedia
-            image={album.image ? API_URL + album.image : NoAlbumImage}
+            image={album.image ? API_URL + '/' + album.image : NoAlbumImage}
             title={album._id}
           />
           <div className="text-start">

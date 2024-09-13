@@ -6,7 +6,7 @@ const run = async () => {
     const db = mongoose.connection;
 
     try {
-        await db.dropCollection('users');
+        await db.dropCollection('albums');
     } catch (e) {
         console.log('Skipping drop...');
     }

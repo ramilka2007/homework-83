@@ -41,7 +41,7 @@ const Register = () => {
     event.preventDefault();
     try {
       await dispatch(register(state)).unwrap();
-      navigate('/');
+      navigate('/artists');
     } catch (e) {
       console.error(e);
     }

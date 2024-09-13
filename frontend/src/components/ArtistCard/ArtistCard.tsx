@@ -20,15 +20,15 @@ const ArtistCard: React.FC<Props> = ({ artist }) => {
   return (
     <div className="col">
       <NavLink
-        to={`albums?artist=${artist._id}`}
+        to={`/albums?artist=${artist._id}`}
         className="d-block border mb-2 rounded-4 text-black text-decoration-none"
       >
         <div className="d-flex justify-content-between align-items-center">
           <ImageCardMedia
-            image={artist.image ? API_URL + artist.image : NoArtistImage}
+            image={artist.image ? API_URL + '/' + artist.image : NoArtistImage}
             title={artist._id}
           />
-          <h5 className="w-50">{artist.artist}</h5>
+          <h5 className="w-50">{artist.name}</h5>
         </div>
       </NavLink>
     </div>

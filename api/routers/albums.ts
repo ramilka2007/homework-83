@@ -11,7 +11,7 @@ albumsReducer.post("/", imagesUpload.single('image'), async (req, res, next) => 
             title: req.body.title,
             artist: req.body.artist,
             image: req.file ? req.file.filename : null,
-            release: req.body.release,
+            release: parseFloat(req.body.release),
         }
 
         const album = new Album(albumData);

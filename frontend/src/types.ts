@@ -28,7 +28,7 @@ export interface LoginMutation {
 
 export interface Artist {
   _id: string;
-  artist: string;
+  name: string;
   information: string;
   image: string;
 }
