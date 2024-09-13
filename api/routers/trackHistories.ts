@@ -9,7 +9,7 @@ const trackHistoryRouter = Router();
 trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
     try {
         const trackHistoryData = {
-            user: req.user._id,
+            user: req.user?._id,
             track: req.body.track,
             datetime: new Date().toISOString(),
         };
@@ -42,9 +42,9 @@ trackHistoryRouter.get('/', auth, async (req: RequestWithUser, res, next) => {
         let trackHistory;
 
         if (track) {
-            trackHistory = await TrackHistory.find({ user: req.user._id, track: track._id });
+            trackHistory = await TrackHistory.find({ user: req.user?._id, track: track._id });
         } else {
-            trackHistory = await TrackHistory.find({ user: req.user._id })
+            trackHistory = await TrackHistory.find({ user: req.user?._id })
                 .populate({
                     path: 'track',
                     populate: {
