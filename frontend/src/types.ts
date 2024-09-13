@@ -40,3 +40,11 @@ export interface Album {
   release: string;
   image: string;
 }
+
+export interface Track {
+  _id: string;
+  album: Album;
+  title: string;
+  duration: string;
+  number: number;
+}

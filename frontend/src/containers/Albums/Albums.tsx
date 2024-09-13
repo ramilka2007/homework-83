@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-import { AppDispatch } from '../../app/store';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../app/hooks';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {
   selectArtist,
   selectIsLoadingArtist,
@@ -16,7 +14,7 @@ import {
 } from '../../features/albums/albumSlice';
 
 const Albums = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = new URLSearchParams(document.location.search);
   const albums = useAppSelector(selectAlbums);
   const artistOfAlbum = useAppSelector(selectArtist);

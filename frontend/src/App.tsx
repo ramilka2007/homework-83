@@ -4,6 +4,7 @@ import Register from './features/users/Register';
 import Login from './features/users/Login';
 import { Route, Routes } from 'react-router-dom';
 import Albums from './containers/Albums/Albums';
+import Tracks from "./containers/Tracks/Tracks";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/albums" element={<Albums />} />
-          <Route path="/tracks" />
+          <Route path="/tracks" element={<Tracks/>} />
           <Route path="/track-history" />
           <Route path="*" element={<h1>Not found</h1>} />
         </Routes>

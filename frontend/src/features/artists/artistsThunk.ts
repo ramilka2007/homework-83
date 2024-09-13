@@ -10,7 +10,6 @@ export const getArtistById = createAsyncThunk(
   'artists/get-by-id',
   async (id: string) => {
     const { data: artist } = await axiosApi.get(`artists/${id}`);
-    console.log(artist);
     return artist ?? null;
   },
 );
