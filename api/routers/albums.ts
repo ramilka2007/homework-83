@@ -32,7 +32,7 @@ albumsReducer.get('/', async (req, res, next) => {
         let albums;
 
         if (artistId) {
-            albums =  await Album.find({artist: artistId}).populate('artist');
+            albums =  await Album.find({artist: artistId}).populate('artist').sort({release: -1});
         } else {
             albums = await Album.find().populate('artist', 'name');
         }

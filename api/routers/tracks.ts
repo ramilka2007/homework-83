@@ -1,16 +1,16 @@
 import express from "express";
-import {imagesUpload} from "../multer";
 import mongoose from "mongoose";
 import Track from "../models/Track";
 
 const tracksReducer = express.Router();
 
-tracksReducer.post("/", imagesUpload.single('image'), async (req, res, next) => {
+tracksReducer.post("/", async (req, res, next) => {
     try {
         const trackData = {
             album: req.body.album,
             title: req.body.title,
             duration: req.body.duration,
+            number: req.body.number,
         }
 
         const track = new Track(trackData);
@@ -30,7 +30,7 @@ tracksReducer.get('/', async (req, res, next) => {
         let albumId = req.query.album;
         let tracks;
         if (albumId) {
-            tracks =  await Track.find({album: albumId}).populate('album');
+            tracks =  await Track.find({album: albumId}).populate('album').sort({number: 1});
         } else {
             tracks = await Track.find();
         }

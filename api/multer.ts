@@ -8,12 +8,12 @@ const imageStorage = multer.diskStorage({
     destination: async (req, file, cb) => {
         const destDir = path.join(config.publicPath, 'images');
         await fs.mkdir(destDir, { recursive: true });
-        cb(null, config.publicPath); // /users/tsyganov/projects/js-25/shop-api/public
+        cb(null, config.publicPath);
     },
     filename: (req, file, cb) => {
         const extension = path.extname(file.originalname); // .jpg
         const newFilename = randomUUID() + extension;
-        cb(null, 'images/' + newFilename); // images/jlsjdfljsdlfjsldjf.jpg
+        cb(null, 'images/' + newFilename);
     },
 });
 
