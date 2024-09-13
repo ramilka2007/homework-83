@@ -7,7 +7,8 @@ import { Route, Routes } from 'react-router-dom';
 const App = () => {
   return (
     <>
-      <header></header>
+      <header>
+      </header>
       <main className="mt-5">
         <Routes>
           <Route path="/" element={<Home />} />

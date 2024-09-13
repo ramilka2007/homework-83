@@ -25,3 +25,10 @@ export interface LoginMutation {
   username: string;
   password: string;
 }
+
+export interface Artist {
+  _id: string;
+  artist: string;
+  information: string;
+  image: string;
+}
