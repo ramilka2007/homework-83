@@ -2,13 +2,13 @@ import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectUser} from "../../features/users/usersSlice";
-import {getTrackToHistory} from "../../features/trackHistories/trackHistoriesThunk";
+import {getTrackToHistory} from "../../features/trackHistories/tracksHistoryThunk";
 import {useSelector} from "react-redux";
 import {RootState} from "../../app/store";
 import TrackHistoryCard from "../../components/TrackHistoryCard/TrackHistoryCard";
 import Spinner from "../../UI/Spinner/Spinner";
 
-const TrackHistories = () => {
+const TracksHistory = () => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectUser);
     const trackHistory = useSelector((state: RootState) => state.tracksHistory.trackHistory);
@@ -36,4 +36,4 @@ const TrackHistories = () => {
     )
 };
 
-export default TrackHistories;
+export default TracksHistory;

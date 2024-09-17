@@ -2,7 +2,7 @@ import React from 'react';
 import { Track } from '../../types';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {selectUser} from "../../features/users/usersSlice";
-import {postTrackToHistoryById} from "../../features/trackHistories/trackHistoriesThunk";
+import {postTrackToHistoryById} from "../../features/trackHistories/tracksHistoryThunk";
 
 interface Props {
   track: Track;

@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {TrackHistory} from '../../types';
-import {getTrackToHistory, postTrackToHistoryById} from "./trackHistoriesThunk";
+import {getTrackToHistory, postTrackToHistoryById} from "./tracksHistoryThunk";
 
 interface tracksHistoryState {
   trackHistory: TrackHistory[];

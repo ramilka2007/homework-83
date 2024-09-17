@@ -14,7 +14,8 @@ const TrackHistoryCard: React.FC<Props> = ({trackFromHistory}) => {
                 <div className="text-start">
                     <img className="block w-100 opacity-50" src={player} alt={trackFromHistory.track._id}/>
                     <div>
-                        <p className="opacity-75 text-end mb-0">Track: {trackFromHistory.track.album.title}</p>
+                        <p className="opacity-75 text-end mb-0">Album: {trackFromHistory.track.album.title}</p>
+                        <p className="opacity-75 text-end mb-0">Track: {trackFromHistory.track.title}</p>
                         <p className="opacity-75 text-end mb-0">Singer: {trackFromHistory.track.album.artist.name}</p>
                         <p className="opacity-75 text-end mb-0">Date: {dayjs(trackFromHistory.datetime).format('YYYY-MM-DD HH:mm:ss')}</p>
                     </div>

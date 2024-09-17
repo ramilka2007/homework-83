@@ -5,7 +5,7 @@ import Login from './features/users/Login';
 import { Route, Routes } from 'react-router-dom';
 import Albums from './containers/Albums/Albums';
 import Tracks from './containers/Tracks/Tracks';
-import TrackHistories from './containers/TrackHistories/TrackHistories';
+import TracksHistory from './containers/TrackHistories/TracksHistory';
 import Toolbar from "./UI/Toolbar/Toolbar";
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/albums" element={<Albums />} />
           <Route path="/tracks" element={<Tracks />} />
-          <Route path="track-histories" element={<TrackHistories />} />
+          <Route path="tracks-history" element={<TracksHistory />} />
           <Route path="*" element={<h1>Not found</h1>} />
         </Routes>
       </main>
