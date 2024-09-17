@@ -55,7 +55,7 @@ trackHistoryRouter.get('/', auth, async (req: RequestWithUser, res, next) => {
                             model: 'Artist',
                         }
                     }
-                });
+                }).sort({number: 1});
         }
 
         return res.send(trackHistory);

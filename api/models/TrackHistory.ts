@@ -30,7 +30,7 @@ const TrackHistorySchema = new mongoose.Schema({
     },
     datetime: {
         type: Date,
-        required: true,
+        default: () => new Date(),
     },
 
 });

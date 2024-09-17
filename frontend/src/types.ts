@@ -52,3 +52,10 @@ export interface Track {
   duration: string;
   number: number;
 }
+
+export interface TrackHistory {
+  _id: string;
+  user: User;
+  datetime: string;
+  track: Track;
+}
