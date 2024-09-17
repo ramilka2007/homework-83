@@ -26,10 +26,6 @@ const Login = () => {
     password: '',
   });
 
-  const getFieldError = (fieldName: string) => {
-    return error?.errors[fieldName]?.message;
-  };
-
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -42,7 +38,7 @@ const Login = () => {
       await dispatch(login(state)).unwrap();
       navigate('/artists');
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 
@@ -56,15 +52,16 @@ const Login = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOpenIcon />
-        </Avatar>
 
         {error && (
           <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
             {error.error}
           </Alert>
         )}
+
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOpenIcon />
+        </Avatar>
 
         <Typography component="h1" variant="h5">
           Sign in
@@ -80,8 +77,6 @@ const Login = () => {
                 autoComplete="current-username"
                 value={state.username}
                 onChange={inputChangeHandler}
-                error={Boolean(getFieldError('username'))}
-                helperText={getFieldError('username')}
               />
             </Grid>
 
@@ -94,8 +89,6 @@ const Login = () => {
                 autoComplete="current-password"
                 value={state.password}
                 onChange={inputChangeHandler}
-                error={Boolean(getFieldError('password'))}
-                helperText={getFieldError('password')}
               />
             </Grid>
           </Grid>

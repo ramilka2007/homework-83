@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { login, register } from './usersThunk';
-import { User, ValidationError } from '../../types';
+import { GlobalError, User, ValidationError } from '../../types';
 
 interface UsersState {
   user: User | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
   loginLoading: boolean;
-  loginError: ValidationError | null;
+  loginError: GlobalError | null;
 }
 
 const initialState: UsersState = {

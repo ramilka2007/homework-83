@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 import axiosApi from '../../axiosApi';
 import {
+  GlobalError,
   LoginMutation,
   RegisterMutation,
   User,
@@ -31,12 +32,14 @@ export const register = createAsyncThunk<
 export const login = createAsyncThunk<
   User,
   LoginMutation,
-  { rejectValue: ValidationError }
->('users/login', async (loginMutation, { rejectWithValue }) => {
+  { rejectValue: GlobalError }
+>('users/login', async (loginMutation, {getState, rejectWithValue }) => {
+  const token = getState().users.user.token;
   try {
     const { data: user } = await axiosApi.post<User>(
       '/users/sessions',
       loginMutation,
+        {headers: {'Authorization': `Bearer ${token}`}}
     );
     return user;
   } catch (e) {

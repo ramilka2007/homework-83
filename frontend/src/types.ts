@@ -26,6 +26,10 @@ export interface LoginMutation {
   password: string;
 }
 
+export interface GlobalError {
+  error: string;
+}
+
 export interface Artist {
   _id: string;
   name: string;
