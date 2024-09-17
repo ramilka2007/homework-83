@@ -5,27 +5,6 @@ import mongoose from "mongoose";
 
 const albumsReducer = express.Router();
 
-albumsReducer.post("/", imagesUpload.single('image'), async (req, res, next) => {
-    try {
-        const albumData = {
-            title: req.body.title,
-            artist: req.body.artist,
-            image: req.file ? req.file.filename : null,
-            release: parseFloat(req.body.release),
-        }
-
-        const album = new Album(albumData);
-        await album.save();
-        return res.send(album);
-    } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-            return res.status(400).send(error);
-        }
-
-        return next(error);
-    }
-});
-
 albumsReducer.get('/', async (req, res, next) => {
     try {
         const artistId = req.query.artist;
@@ -55,6 +34,27 @@ albumsReducer.get('/:id', async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-})
+});
+
+albumsReducer.post("/", imagesUpload.single('image'), async (req, res, next) => {
+    try {
+        const albumData = {
+            title: req.body.title,
+            artist: req.body.artist,
+            image: req.file ? req.file.filename : null,
+            release: parseFloat(req.body.release),
+        }
+
+        const album = new Album(albumData);
+        await album.save();
+        return res.send(album);
+    } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(error);
+        }
+
+        return next(error);
+    }
+});
 
 export default albumsReducer;

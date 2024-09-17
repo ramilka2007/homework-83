@@ -6,27 +6,6 @@ import auth, {RequestWithUser} from "../middleware/auth";
 
 const trackHistoryRouter = Router();
 
-trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
-    try {
-        const trackHistoryData = {
-            user: req.user?._id,
-            track: req.body.track,
-            datetime: new Date().toISOString(),
-        };
-
-        const trackHistory = new TrackHistory(trackHistoryData);
-        await trackHistory.save();
-
-        return res.send(trackHistory);
-    } catch (e) {
-        if (e instanceof mongoose.Error.ValidationError) {
-            return res.status(422).send(e);
-        }
-
-        return next(e);
-    }
-});
-
 trackHistoryRouter.get('/', auth, async (req: RequestWithUser, res, next) => {
     try {
         const trackId = req.query.track;
@@ -55,13 +34,34 @@ trackHistoryRouter.get('/', auth, async (req: RequestWithUser, res, next) => {
                             model: 'Artist',
                         }
                     }
-                }).sort({number: 1});
+                }).sort({datetime: -1});
         }
 
         return res.send(trackHistory);
 
     } catch (e) {
         next(e);
+    }
+});
+
+trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
+    try {
+        const trackHistoryData = {
+            user: req.user?._id,
+            track: req.body.track,
+            datetime: new Date().toISOString(),
+        };
+
+        const trackHistory = new TrackHistory(trackHistoryData);
+        await trackHistory.save();
+
+        return res.send(trackHistory);
+    } catch (e) {
+        if (e instanceof mongoose.Error.ValidationError) {
+            return res.status(422).send(e);
+        }
+
+        return next(e);
     }
 });
 

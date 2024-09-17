@@ -4,6 +4,22 @@ import Track from "../models/Track";
 
 const tracksReducer = express.Router();
 
+tracksReducer.get('/', async (req, res, next) => {
+    try {
+        let albumId = req.query.album;
+        let tracks;
+        if (albumId) {
+            tracks =  await Track.find({album: albumId}).populate('album').sort({number: 1});
+        } else {
+            tracks = await Track.find();
+        }
+
+        return res.send(tracks);
+    } catch (error) {
+        return next(error);
+    }
+});
+
 tracksReducer.post("/", async (req, res, next) => {
     try {
         const trackData = {
@@ -21,22 +37,6 @@ tracksReducer.post("/", async (req, res, next) => {
             return res.status(400).send(error);
         }
 
-        return next(error);
-    }
-});
-
-tracksReducer.get('/', async (req, res, next) => {
-    try {
-        let albumId = req.query.album;
-        let tracks;
-        if (albumId) {
-            tracks =  await Track.find({album: albumId}).populate('album').sort({number: 1});
-        } else {
-            tracks = await Track.find();
-        }
-
-        return res.send(tracks);
-    } catch (error) {
         return next(error);
     }
 });

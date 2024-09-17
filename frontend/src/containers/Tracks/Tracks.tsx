@@ -53,7 +53,7 @@ const Tracks = () => {
           <h3 className="opacity-75 mb-3">
             Album: {infoOfAlbum ? infoOfAlbum.title : 'Not found'}
           </h3>
-          <NavLink to="/artists" className="fs-3">
+          <NavLink to="/" className="fs-3">
             Go back to artists
           </NavLink>
           <hr />

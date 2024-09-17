@@ -33,13 +33,13 @@ export const login = createAsyncThunk<
   User,
   LoginMutation,
   { rejectValue: GlobalError }
->('users/login', async (loginMutation, {getState, rejectWithValue }) => {
+>('users/login', async (loginMutation, { getState, rejectWithValue }) => {
   const token = getState().users.user.token;
   try {
     const { data: user } = await axiosApi.post<User>(
       '/users/sessions',
       loginMutation,
-        {headers: {'Authorization': `Bearer ${token}`}}
+      { headers: { Authorization: `Bearer ${token}` } },
     );
     return user;
   } catch (e) {

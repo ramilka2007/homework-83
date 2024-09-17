@@ -6,7 +6,7 @@ import artistsRouter from "./routers/artists";
 import albumsReducer from "./routers/albums";
 import tracksReducer from "./routers/tracks";
 import usersRouter from "./routers/users";
-import trackHistoryRouter from "./routers/trackHistories";
+import trackHistoryRouter from "./routers/trackHistory";
 
 const app = express();
 const port = 8000;

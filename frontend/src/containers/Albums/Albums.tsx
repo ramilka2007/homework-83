@@ -40,7 +40,7 @@ const Albums = () => {
           <h1 className="mb-2">
             Artist: {artistOfAlbum ? artistOfAlbum.name : 'Not found'}
           </h1>
-          <NavLink to="/artists" className="fs-3">
+          <NavLink to="/" className="fs-3">
             Go back to artists
           </NavLink>
           <hr />

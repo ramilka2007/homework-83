@@ -36,7 +36,7 @@ const Login = () => {
 
     try {
       await dispatch(login(state)).unwrap();
-      navigate('/artists');
+      navigate('/');
     } catch (e) {
       console.log(e);
     }
@@ -52,7 +52,6 @@ const Login = () => {
           alignItems: 'center',
         }}
       >
-
         {error && (
           <Alert severity="error" sx={{ mt: 3, width: '100%' }}>
             {error.error}
