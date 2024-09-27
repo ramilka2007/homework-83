@@ -4,6 +4,8 @@ import {imagesUpload} from "../multer";
 import mongoose from "mongoose";
 import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
+import Album from "../models/Album";
+import Track from "../models/Track";
 
 const artistsRouter = express.Router();
 
@@ -50,7 +52,7 @@ artistsRouter.post("/", auth, permit('admin'), imagesUpload.single('image'), asy
     }
 });
 
-artistsRouter.delete("/:id", auth, async (req: RequestWithUser, res, next) => {
+artistsRouter.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {
             res.status(400).send({"error": "Id items params must be in url"});
@@ -60,6 +62,18 @@ artistsRouter.delete("/:id", auth, async (req: RequestWithUser, res, next) => {
 
         if (artist) {
             await Artist.findByIdAndDelete(req.params.id);
+
+            const albums = await Album.find({artist: req.params.id});
+
+            for (const album of albums) {
+                const tracks = await Track.find({album: (await album)._id})
+
+                for (const track of tracks) {
+                    await Track.findByIdAndDelete((await track)._id)
+                }
+
+                await Album.findByIdAndDelete((await album)._id)
+            }
             return res.send('Item was success deleted');
         }
 

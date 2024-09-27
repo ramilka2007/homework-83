@@ -70,8 +70,12 @@ albumsReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser,
         const album = await Album.findById(req.params.id);
 
         if (album) {
-            await Album.findByIdAndDelete(req.params.id);
-            await Track.findByIdAndDelete({album: req.params.id})
+            await Album.findByIdAndDelete(req.params.id)
+            const tracks = await Track.find({album: req.params.id})
+
+            for (const track of tracks) {
+                await Track.findByIdAndDelete((await track)._id)
+            }
             return res.send('Item was success deleted');
         }
 

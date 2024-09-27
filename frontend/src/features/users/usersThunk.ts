@@ -8,6 +8,7 @@ import {
   User,
   ValidationError,
 } from '../../types';
+import {unsetUser} from "./usersSlice";
 
 export const register = createAsyncThunk<
   User,
@@ -33,13 +34,11 @@ export const login = createAsyncThunk<
   User,
   LoginMutation,
   { rejectValue: GlobalError }
->('users/login', async (loginMutation, { getState, rejectWithValue }) => {
-  const token = getState().users.user.token;
+>('users/login', async (loginMutation, { rejectWithValue }) => {
   try {
     const { data: user } = await axiosApi.post<User>(
       '/users/sessions',
       loginMutation,
-      { headers: { Authorization: `Bearer ${token}` } },
     );
     return user;
   } catch (e) {
@@ -49,4 +48,9 @@ export const login = createAsyncThunk<
 
     throw e;
   }
+});
+
+export const logout = createAsyncThunk('users/logout', async (_arg, { dispatch }) => {
+  await axiosApi.delete('/users/sessions');
+  dispatch(unsetUser())
 });
