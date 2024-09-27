@@ -14,7 +14,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import {tracksHistoryReducer} from "../features/trackHistories/tracksHistorySlice";
+import { tracksHistoryReducer } from '../features/trackHistories/tracksHistorySlice';
 
 const usersPersistConfig = {
   key: 'store:users',

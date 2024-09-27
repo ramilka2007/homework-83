@@ -31,10 +31,9 @@ artistsRouter.get('/:id', async (req, res, next) => {
     }
 });
 
-artistsRouter.post("/", auth, permit('admin'), imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
+artistsRouter.post("/", imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const artistData = {
-            user: req.user?._id,
             name: req.body.name,
             image: req.file ? req.file.filename : null,
             information: req.body.information,

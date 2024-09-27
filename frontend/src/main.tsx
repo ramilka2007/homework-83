@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { persistor, store } from './app/store';
 import theme from './theme';
 import { PersistGate } from 'redux-persist/integration/react';
-import {addInterceptors} from "./axiosApi";
+import { addInterceptors } from './axiosApi';
 
 addInterceptors(store);
 

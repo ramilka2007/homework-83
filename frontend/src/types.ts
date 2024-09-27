@@ -60,3 +60,16 @@ export interface TrackHistory {
   datetime: string;
   track: Track;
 }
+
+export interface AlbumForm {
+  artist: string;
+  title: string;
+  release: string;
+  image: string | null;
+}
+
+export interface ArtistForm {
+  name: string;
+  information: string;
+  image: string | null;
+}

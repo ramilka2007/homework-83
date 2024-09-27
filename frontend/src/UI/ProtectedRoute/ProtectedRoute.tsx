@@ -2,15 +2,15 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 interface Props extends React.PropsWithChildren {
-    isAllowed: boolean | null;
+  isAllowed: boolean | null;
 }
 
 const ProtectedRoute: React.FC<Props> = ({ isAllowed, children }) => {
-    if (!isAllowed) {
-        return <Navigate to="/login" />;
-    }
+  if (!isAllowed) {
+    return <Navigate to="/" />;
+  }
 
-    return children;
+  return children;
 };
 
 export default ProtectedRoute;

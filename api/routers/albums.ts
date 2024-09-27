@@ -39,24 +39,21 @@ albumsReducer.get('/:id', async (req, res, next) => {
     }
 });
 
-albumsReducer.post("/", auth, imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
+albumsReducer.post("/", auth, permit('admin'), imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const albumData = {
-            user: req.user?._id,
             title: req.body.title,
             artist: req.body.artist,
             image: req.file ? req.file.filename : null,
             release: parseFloat(req.body.release),
         }
 
+        console.log(albumData)
+
         const album = new Album(albumData);
         await album.save();
         return res.send(album);
     } catch (error) {
-        if (error instanceof mongoose.Error.ValidationError) {
-            return res.status(400).send(error);
-        }
-
         return next(error);
     }
 });

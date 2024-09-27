@@ -1,7 +1,7 @@
-import Artists from "../Artists/Artists";
+import Artists from '../Artists/Artists';
 
 const Home = () => {
-  return <Artists/>;
+  return <Artists />;
 };
 
 export default Home;

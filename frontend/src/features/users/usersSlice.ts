@@ -66,7 +66,6 @@ export const usersSlice = createSlice({
 
 export const usersReducer = usersSlice.reducer;
 
-
 export const { unsetUser } = usersSlice.actions;
 
 export const {

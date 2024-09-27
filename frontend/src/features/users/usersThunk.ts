@@ -8,7 +8,7 @@ import {
   User,
   ValidationError,
 } from '../../types';
-import {unsetUser} from "./usersSlice";
+import { unsetUser } from './usersSlice';
 
 export const register = createAsyncThunk<
   User,
@@ -50,7 +50,10 @@ export const login = createAsyncThunk<
   }
 });
 
-export const logout = createAsyncThunk('users/logout', async (_arg, { dispatch }) => {
-  await axiosApi.delete('/users/sessions');
-  dispatch(unsetUser())
-});
+export const logout = createAsyncThunk(
+  'users/logout',
+  async (_arg, { dispatch }) => {
+    await axiosApi.delete('/users/sessions');
+    dispatch(unsetUser());
+  },
+);

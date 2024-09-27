@@ -2,8 +2,8 @@ import { Box, Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { User } from '../../types';
-import {useAppDispatch} from "../../app/hooks";
-import {logout} from "../../features/users/usersThunk";
+import { useAppDispatch } from '../../app/hooks';
+import { logout } from '../../features/users/usersThunk';
 
 interface Props {
   user: User;
@@ -46,6 +46,24 @@ const UserMenu: React.FC<Props> = ({ user }) => {
               Track history
             </NavLink>
           </MenuItem>
+          {user.role === 'admin' ? (
+                <MenuItem component={NavLink} className="text-decoration-none text-black"
+                          to="/add-new-artist">
+                  Add artist
+                </MenuItem>
+          ) : null}
+          {user.role === 'admin' ? (
+              <MenuItem component={NavLink} className="text-decoration-none text-black"
+                        to="/add-new-album">
+                Add album
+              </MenuItem>
+          ) : null}
+          {user.role === 'admin' ? (
+              <MenuItem component={NavLink} className="text-decoration-none text-black"
+                        to="/add-new-track">
+                Add track
+              </MenuItem>
+          ) : null}
           <MenuItem onClick={handleLogout}>Log out</MenuItem>
         </Menu>
       </Box>

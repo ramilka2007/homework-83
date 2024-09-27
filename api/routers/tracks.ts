@@ -25,7 +25,6 @@ tracksRouter.get('/', async (req, res, next) => {
 tracksRouter.post("/", auth, async (req: RequestWithUser, res, next) => {
     try {
         const trackData = {
-            user: req.user?._id,
             album: req.body.album,
             title: req.body.title,
             duration: req.body.duration,
