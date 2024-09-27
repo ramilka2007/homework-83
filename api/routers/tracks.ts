@@ -4,9 +4,9 @@ import Track from "../models/Track";
 import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 
-const tracksReducer = express.Router();
+const tracksRouter = express.Router();
 
-tracksReducer.get('/', async (req, res, next) => {
+tracksRouter.get('/', async (req, res, next) => {
     try {
         let albumId = req.query.album;
         let tracks;
@@ -22,7 +22,7 @@ tracksReducer.get('/', async (req, res, next) => {
     }
 });
 
-tracksReducer.post("/", auth, async (req: RequestWithUser, res, next) => {
+tracksRouter.post("/", auth, async (req: RequestWithUser, res, next) => {
     try {
         const trackData = {
             user: req.user?._id,
@@ -44,7 +44,34 @@ tracksReducer.post("/", auth, async (req: RequestWithUser, res, next) => {
     }
 });
 
-tracksReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+tracksRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+    try {
+
+        if (!req.params.id) {
+            res.status(400).send({"error": "Id items params must be in url"});
+        }
+
+        const track = await Track.findById(req.params.id);
+
+        if (track) {
+            if(track.isPublished === true) {
+                await Track.findByIdAndUpdate(req.params.id, {isPublished: false})
+            } else {
+                await Track.findByIdAndUpdate(req.params.id, {isPublished: true})
+            }
+        }
+
+        return res.send('Item was success updated');
+    } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(error);
+        }
+
+        return next(error);
+    }
+});
+
+tracksRouter.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {
             res.status(400).send({"error": "Id items params must be in url"});
@@ -67,4 +94,4 @@ tracksReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser,
     }
 });
 
-export default tracksReducer;
+export default tracksRouter;

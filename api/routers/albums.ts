@@ -61,6 +61,33 @@ albumsReducer.post("/", auth, imagesUpload.single('image'), async (req: RequestW
     }
 });
 
+albumsReducer.patch("/:id/togglePublished", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+    try {
+
+        if (!req.params.id) {
+            res.status(400).send({"error": "Id items params must be in url"});
+        }
+
+        const album = await Album.findById(req.params.id);
+
+        if (album) {
+            if(album.isPublished === true) {
+                await Album.findByIdAndUpdate(req.params.id, {isPublished: false})
+            } else {
+                await Album.findByIdAndUpdate(req.params.id, {isPublished: true})
+            }
+        }
+
+        return res.send('Item was success updated');
+    } catch (error) {
+        if (error instanceof mongoose.Error.ValidationError) {
+            return res.status(400).send(error);
+        }
+
+        return next(error);
+    }
+});
+
 albumsReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {

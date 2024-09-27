@@ -4,7 +4,7 @@ import config from './config';
 import mongoose from 'mongoose';
 import artistsRouter from "./routers/artists";
 import albumsReducer from "./routers/albums";
-import tracksReducer from "./routers/tracks";
+import tracksRouter from "./routers/tracks";
 import usersRouter from "./routers/users";
 import trackHistoryRouter from "./routers/trackHistory";
 
@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/artists', artistsRouter);
 app.use('/albums', albumsReducer);
-app.use('/tracks', tracksReducer);
+app.use('/tracks', tracksRouter);
 app.use('/users', usersRouter);
 app.use('/track-history', trackHistoryRouter);
 
