@@ -46,19 +46,19 @@ const UserMenu: React.FC<Props> = ({ user }) => {
               Track history
             </NavLink>
           </MenuItem>
-          {user.role === 'admin' ? (
+          {user ? (
                 <MenuItem component={NavLink} className="text-decoration-none text-black"
                           to="/add-new-artist">
                   Add artist
                 </MenuItem>
           ) : null}
-          {user.role === 'admin' ? (
+          {user ? (
               <MenuItem component={NavLink} className="text-decoration-none text-black"
                         to="/add-new-album">
                 Add album
               </MenuItem>
           ) : null}
-          {user.role === 'admin' ? (
+          {user ? (
               <MenuItem component={NavLink} className="text-decoration-none text-black"
                         to="/add-new-track">
                 Add track
