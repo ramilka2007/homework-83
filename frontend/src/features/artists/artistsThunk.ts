@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi';
+import {ArtistForm} from "../../types";
 
 export const getArtists = createAsyncThunk('artists/get-all', async () => {
   const { data: artists } = await axiosApi.get(`/artists`);
@@ -14,6 +15,38 @@ export const getArtistById = createAsyncThunk(
   },
 );
 
-export const addArtist = createAsyncThunk('artists/add-new-artist', async (newArtist: FormData) => {
-    await axiosApi.post('/artists', newArtist);
+export const getUnpublishedArtists = createAsyncThunk('artists/get-unpublished', async () => {
+    const {data: artists} = await axiosApi.get(`/artists/unpublished`);
+    return artists ?? [];
+});
+
+export const getAllArtists = createAsyncThunk('artists/get-all-unpublished', async () => {
+    const {data: artists} = await axiosApi.get(`/artists/unpublishedForAdmin`);
+    return artists ?? [];
+});
+
+export const addArtist = createAsyncThunk(
+  'artists/add-new-artist',
+  async (newArtist) => {
+      const formData = new FormData();
+      console.log(newArtist)
+
+      const keys = Object.keys(newArtist) as (keyof ArtistForm)[];
+      keys.forEach((key) => {
+          const value = newArtist[key];
+          if (value !== null) {
+              formData.append(key, value);
+          }
+      });
+
+      await axiosApi.post('/artists', formData);
+  },
+);
+
+export const artistPublish = createAsyncThunk('artists/publish-artist', async (id: string) => {
+    await axiosApi.patch(`/artists/${id}/togglePublished`)
+})
+
+export const deleteArtist = createAsyncThunk('artists/delete-artists', async (id: string) => {
+    await axiosApi.delete(`/artists/${id}`);
 });

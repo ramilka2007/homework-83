@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Artist } from '../../types';
-import { getArtistById, getArtists } from './artistsThunk';
+import {getAllArtists, getArtistById, getArtists, getUnpublishedArtists} from './artistsThunk';
 
 interface artistsState {
   artists: Artist[];
+  unpArtists: Artist[];
   artist: Artist | null;
   isLoading: boolean;
   addLoading: boolean;
@@ -12,6 +13,7 @@ interface artistsState {
 
 const initialState: artistsState = {
   artists: [],
+  unpArtists: [],
   artist: null,
   isLoading: false,
   addLoading: false,
@@ -50,9 +52,39 @@ const artistsSlice = createSlice({
         state.addLoading = false;
         state.isError = true;
       });
+
+    builder
+        .addCase(getUnpublishedArtists.pending, (state) => {
+          state.addLoading = true;
+          state.isError = false;
+        })
+        .addCase(getUnpublishedArtists.fulfilled, (state, { payload: artists }) => {
+          state.addLoading = false;
+          state.unpArtists = artists;
+        })
+        .addCase(getUnpublishedArtists.rejected, (state) => {
+          state.addLoading = false;
+          state.isError = true;
+        });
+
+    builder
+        .addCase(getAllArtists.pending, (state) => {
+          state.addLoading = true;
+          state.isError = false;
+        })
+        .addCase(getAllArtists.fulfilled, (state, { payload: artists }) => {
+          state.addLoading = false;
+          state.unpArtists = artists;
+        })
+        .addCase(getAllArtists.rejected, (state) => {
+          state.addLoading = false;
+          state.isError = true;
+        });
+
   },
   selectors: {
     selectArtists: (state) => state.artists,
+    selectUnpublishedArtists: (state) => state.unpArtists,
     selectArtist: (state) => state.artist,
     selectIsLoadingArtist: (state) => state.isLoading,
   },
@@ -60,5 +92,5 @@ const artistsSlice = createSlice({
 
 export const artistsReducer = artistsSlice.reducer;
 
-export const { selectArtists, selectArtist, selectIsLoadingArtist } =
+export const { selectArtists, selectArtist, selectUnpublishedArtists, selectIsLoadingArtist } =
   artistsSlice.selectors;

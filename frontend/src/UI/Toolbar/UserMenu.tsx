@@ -47,24 +47,40 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             </NavLink>
           </MenuItem>
           {user ? (
-                <MenuItem component={NavLink} className="text-decoration-none text-black"
-                          to="/add-new-artist">
-                  Add artist
-                </MenuItem>
+            <MenuItem
+              component={NavLink}
+              className="text-decoration-none text-black"
+              to="/add-new-artist"
+            >
+              Add artist
+            </MenuItem>
           ) : null}
           {user ? (
-              <MenuItem component={NavLink} className="text-decoration-none text-black"
-                        to="/add-new-album">
-                Add album
-              </MenuItem>
+            <MenuItem
+              component={NavLink}
+              className="text-decoration-none text-black"
+              to="/add-new-album"
+            >
+              Add album
+            </MenuItem>
           ) : null}
           {user ? (
-              <MenuItem component={NavLink} className="text-decoration-none text-black"
-                        to="/add-new-track">
-                Add track
-              </MenuItem>
+            <MenuItem
+              component={NavLink}
+              className="text-decoration-none text-black"
+              to="/add-new-track"
+            >
+              Add track
+            </MenuItem>
           ) : null}
-          <MenuItem onClick={handleLogout}>Log out</MenuItem>
+          <MenuItem
+            onClick={handleLogout}
+            component={NavLink}
+            className="text-decoration-none text-black"
+            to="/login"
+          >
+            Log out
+          </MenuItem>
         </Menu>
       </Box>
     </>

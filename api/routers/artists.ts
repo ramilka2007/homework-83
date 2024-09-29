@@ -11,7 +11,25 @@ const artistsRouter = express.Router();
 
 artistsRouter.get('/', async (req, res, next) => {
     try {
-        const artists = await Artist.find();
+        const artists = await Artist.find({isPublished: true});
+        return res.send(artists);
+    } catch (error) {
+        return next(error);
+    }
+});
+
+artistsRouter.get('/unpublished', auth, async (req: RequestWithUser, res, next) => {
+    try {
+        const artists = await Artist.find({user: req.user}, {isPublished: false});
+        return res.send(artists);
+    } catch (error) {
+        return next(error);
+    }
+});
+
+artistsRouter.get('/unpublishedForAdmin', auth, async (req: RequestWithUser, res, next) => {
+    try {
+        const artists = await Artist.find({isPublished: false});
         return res.send(artists);
     } catch (error) {
         return next(error);
@@ -31,9 +49,10 @@ artistsRouter.get('/:id', async (req, res, next) => {
     }
 });
 
-artistsRouter.post("/", imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
+artistsRouter.post('/', auth, imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const artistData = {
+            user: req.user,
             name: req.body.name,
             image: req.file ? req.file.filename : null,
             information: req.body.information,
@@ -78,7 +97,7 @@ artistsRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req: R
     }
 });
 
-artistsRouter.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+artistsRouter.delete("/:id", auth, async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {
             res.status(400).send({"error": "Id items params must be in url"});

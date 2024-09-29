@@ -33,9 +33,11 @@ export interface GlobalError {
 
 export interface Artist {
   _id: string;
+  user: User;
   name: string;
   information: string;
   image: string;
+  isPublished: boolean;
 }
 
 export interface Album {
@@ -44,6 +46,7 @@ export interface Album {
   title: string;
   release: string;
   image: string;
+  isPublished: boolean;
 }
 
 export interface Track {
@@ -52,6 +55,7 @@ export interface Track {
   title: string;
   duration: string;
   number: number;
+  isPublished: boolean;
 }
 
 export interface TrackHistory {
