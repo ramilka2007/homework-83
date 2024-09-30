@@ -20,6 +20,7 @@ import {selectUser} from "../../features/users/usersSlice";
 const Albums = () => {
   const dispatch = useAppDispatch();
   const params = new URLSearchParams(document.location.search);
+  let artistId = params.get('artist');
   const albums = useAppSelector(selectAlbums);
   const unpublishedAlbums = useAppSelector(selectUnpublishedAlbums);
   const artistOfAlbum = useAppSelector(selectArtist);
@@ -28,8 +29,6 @@ const Albums = () => {
   const artistLoading = useAppSelector(selectIsLoadingArtist);
 
   useEffect(() => {
-    let artistId = params.get('artist');
-
     if (artistId) {
       dispatch(getAlbumsByArtist(artistId));
       dispatch(getArtistById(artistId));
@@ -38,8 +37,6 @@ const Albums = () => {
 
   const albumDeleter = async (id: string) => {
     try {
-      let artistId = params.get('artist');
-
       if (artistId) {
         await dispatch(deleteAlbum(id));
         await dispatch(getAlbumsByArtist(artistId));
@@ -52,7 +49,6 @@ const Albums = () => {
   const publishAlbum = async (id: string) => {
     try {
       await dispatch(albumPublish(id))
-      let artistId = params.get('artist');
       if (artistId) {
         await dispatch(getAlbumsByArtist(artistId));
         if (user.role === 'admin') {

@@ -13,7 +13,6 @@ const AlbumForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
-  const [error, setError] = useState(false);
   const [newAlbum, setNewItem] = useState<AlbumForm>({
     artist: '',
     image: null,
@@ -48,7 +47,6 @@ const AlbumForm = () => {
   ) => {
     const { name, files } = event.target;
     const value = files && files[0] ? files[0] : null;
-    console.log(newAlbum.image);
 
     setNewItem((prevState) => ({
       ...prevState,
@@ -58,9 +56,6 @@ const AlbumForm = () => {
 
   return artists.length > 0 ? (
     <div className="container">
-      {error ? (
-        <Alert severity="error">Release - only year; Choose the artist</Alert>
-      ) : null}
       <form onSubmit={onFormSubmit} className="w-50 mx-auto">
         <h2 className="text-center my-4">Create new item card</h2>
         <div className="mb-3 w-75 mx-auto">

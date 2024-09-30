@@ -4,12 +4,14 @@ import { Track } from '../../types';
 
 interface tracksState {
   tracks: Track[];
+  unpublishedTracks: Track[];
   isLoading: boolean;
   isError: boolean;
 }
 
 const initialState: tracksState = {
   tracks: [],
+  unpublishedTracks: [],
   isLoading: false,
   isError: false,
 };
@@ -25,7 +27,8 @@ const tracksSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getTracksByAlbumId.fulfilled, (state, { payload: tracks }) => {
-        state.tracks = tracks;
+        state.tracks = tracks.filter((track) => track.isPublished === true);
+        state.unpublishedTracks = tracks.filter((track) => track.isPublished === false);
         state.isLoading = false;
       })
       .addCase(getTracksByAlbumId.rejected, (state) => {
@@ -35,10 +38,11 @@ const tracksSlice = createSlice({
   },
   selectors: {
     selectTracks: (state) => state.tracks,
+    selectUnpublishedTracks: (state) => state.unpublishedTracks,
     selectIsLoadingTracks: (state) => state.isLoading,
   },
 });
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const { selectTracks, selectIsLoadingTracks } = tracksSlice.selectors;
+export const { selectTracks, selectUnpublishedTracks, selectIsLoadingTracks } = tracksSlice.selectors;

@@ -12,10 +12,7 @@ tracksRouter.get('/', async (req, res, next) => {
         let tracks;
         if (albumId) {
             tracks =  await Track.find({album: albumId}).populate('album').sort({number: 1});
-        } else {
-            tracks = await Track.find();
         }
-
         return res.send(tracks);
     } catch (error) {
         return next(error);
@@ -25,6 +22,7 @@ tracksRouter.get('/', async (req, res, next) => {
 tracksRouter.post("/", auth, async (req: RequestWithUser, res, next) => {
     try {
         const trackData = {
+            user: req.user,
             album: req.body.album,
             title: req.body.title,
             duration: req.body.duration,
@@ -70,7 +68,7 @@ tracksRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req: Re
     }
 });
 
-tracksRouter.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+tracksRouter.delete("/:id", auth, async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {
             res.status(400).send({"error": "Id items params must be in url"});

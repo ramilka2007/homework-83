@@ -53,6 +53,7 @@ export interface Album {
 export interface Track {
   _id: string;
   album: Album;
+  user: User;
   title: string;
   duration: string;
   number: number;
@@ -77,4 +78,12 @@ export interface ArtistForm {
   name: string;
   information: string;
   image: string | null;
+}
+
+export interface TrackForm {
+  artist: string;
+  album: string;
+  title: string;
+  duration: string;
+  number: number;
 }
