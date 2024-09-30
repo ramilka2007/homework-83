@@ -20,11 +20,6 @@ export const getUnpublishedArtists = createAsyncThunk('artists/get-unpublished',
     return artists ?? [];
 });
 
-export const getAllArtists = createAsyncThunk('artists/get-all-unpublished', async () => {
-    const {data: artists} = await axiosApi.get(`/artists/unpublishedForAdmin`);
-    return artists ?? [];
-});
-
 export const addArtist = createAsyncThunk(
   'artists/add-new-artist',
   async (newArtist) => {

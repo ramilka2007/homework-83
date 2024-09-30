@@ -6,6 +6,7 @@ export const getAlbumsByArtist = createAsyncThunk(
   'albums/get-by-artist',
   async (artistId: string) => {
     const { data: albums } = await axiosApi.get(`/albums?artist=${artistId}`);
+    console.log(albums)
     return albums ?? [];
   },
 );
@@ -18,7 +19,7 @@ export const getAlbumsById = createAsyncThunk(
   },
 );
 
-export const addAlbum = createAsyncThunk<Album, AlbumForm>(
+export const addAlbum = createAsyncThunk<Album, Album>(
   'albums/add-new-album',
   async (newAlbum) => {
     const formData = new FormData();
@@ -34,3 +35,11 @@ export const addAlbum = createAsyncThunk<Album, AlbumForm>(
     await axiosApi.post('/albums', formData);
   },
 );
+
+export const albumPublish = createAsyncThunk('albums/publish-album', async (id: string) => {
+    await axiosApi.patch(`/albums/${id}/togglePublished`)
+})
+
+export const deleteAlbum = createAsyncThunk('albums/delete-albums', async (id: string) => {
+    await axiosApi.delete(`/albums/${id}`);
+});

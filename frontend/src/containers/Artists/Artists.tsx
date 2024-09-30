@@ -8,7 +8,6 @@ import Spinner from '../../UI/Spinner/Spinner';
 import {
   artistPublish,
   deleteArtist,
-  getAllArtists,
   getArtists,
   getUnpublishedArtists
 } from '../../features/artists/artistsThunk';
@@ -25,11 +24,7 @@ const Artists = () => {
   useEffect(() => {
     dispatch(getArtists());
     if (user) {
-      if (user.role === 'user'){
         dispatch(getUnpublishedArtists())
-      } else if (user.role === 'admin') {
-        dispatch(getAllArtists())
-      }
     }
   }, [dispatch]);
 
@@ -38,11 +33,7 @@ const Artists = () => {
       await dispatch(deleteArtist(id));
       await dispatch(getArtists());
       if (user) {
-        if (user.role === 'user'){
           await dispatch(getUnpublishedArtists())
-        } else if (user.role === 'admin') {
-          await dispatch(getAllArtists())
-        }
       }
     } catch (e) {
       console.log(e);
@@ -53,7 +44,7 @@ const Artists = () => {
     await dispatch(artistPublish(id))
     await dispatch(getArtists());
     if (user.role === 'admin') {
-      await dispatch(getAllArtists())
+      await dispatch(getUnpublishedArtists())
     }
   }
 
@@ -84,7 +75,6 @@ const Artists = () => {
                   </>
                 </div>
               </>
-
           ) : null}
         </>
       )}

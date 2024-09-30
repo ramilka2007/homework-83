@@ -20,16 +20,17 @@ artistsRouter.get('/', async (req, res, next) => {
 
 artistsRouter.get('/unpublished', auth, async (req: RequestWithUser, res, next) => {
     try {
-        const artists = await Artist.find({user: req.user}, {isPublished: false});
-        return res.send(artists);
-    } catch (error) {
-        return next(error);
-    }
-});
+        const user = req.user;
+        let artists;
 
-artistsRouter.get('/unpublishedForAdmin', auth, async (req: RequestWithUser, res, next) => {
-    try {
-        const artists = await Artist.find({isPublished: false});
+        if (user) {
+            if (user.role === 'admin') {
+                artists = await Artist.find({isPublished: false});
+            } else {
+                artists = await Artist.find({user: req.user}, {isPublished: false});
+            }
+        }
+
         return res.send(artists);
     } catch (error) {
         return next(error);

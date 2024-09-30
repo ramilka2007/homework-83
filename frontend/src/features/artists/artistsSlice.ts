@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Artist } from '../../types';
-import {getAllArtists, getArtistById, getArtists, getUnpublishedArtists} from './artistsThunk';
+import {getArtistById, getArtists, getUnpublishedArtists} from './artistsThunk';
 
 interface artistsState {
   artists: Artist[];
-  unpArtists: Artist[];
+  unpubArtists: Artist[];
   artist: Artist | null;
   isLoading: boolean;
   addLoading: boolean;
@@ -13,7 +13,7 @@ interface artistsState {
 
 const initialState: artistsState = {
   artists: [],
-  unpArtists: [],
+  unpubArtists: [],
   artist: null,
   isLoading: false,
   addLoading: false,
@@ -60,31 +60,16 @@ const artistsSlice = createSlice({
         })
         .addCase(getUnpublishedArtists.fulfilled, (state, { payload: artists }) => {
           state.addLoading = false;
-          state.unpArtists = artists;
+          state.unpubArtists = artists;
         })
         .addCase(getUnpublishedArtists.rejected, (state) => {
           state.addLoading = false;
           state.isError = true;
         });
-
-    builder
-        .addCase(getAllArtists.pending, (state) => {
-          state.addLoading = true;
-          state.isError = false;
-        })
-        .addCase(getAllArtists.fulfilled, (state, { payload: artists }) => {
-          state.addLoading = false;
-          state.unpArtists = artists;
-        })
-        .addCase(getAllArtists.rejected, (state) => {
-          state.addLoading = false;
-          state.isError = true;
-        });
-
   },
   selectors: {
     selectArtists: (state) => state.artists,
-    selectUnpublishedArtists: (state) => state.unpArtists,
+    selectUnpublishedArtists: (state) => state.unpubArtists,
     selectArtist: (state) => state.artist,
     selectIsLoadingArtist: (state) => state.isLoading,
   },

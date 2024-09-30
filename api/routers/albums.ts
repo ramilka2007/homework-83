@@ -6,17 +6,15 @@ import permit from "../middleware/permit";
 import auth, {RequestWithUser} from "../middleware/auth";
 import Track from "../models/Track";
 
-const albumsReducer = express.Router();
+const albumsRouter = express.Router();
 
-albumsReducer.get('/', async (req, res, next) => {
+albumsRouter.get('/', async (req, res, next) => {
     try {
         const artistId = req.query.artist;
         let albums;
 
         if (artistId) {
             albums =  await Album.find({artist: artistId}).populate('artist').sort({release: -1});
-        } else {
-            albums = await Album.find().populate('artist', 'name');
         }
 
         return res.send(albums);
@@ -25,7 +23,7 @@ albumsReducer.get('/', async (req, res, next) => {
     }
 });
 
-albumsReducer.get('/:id', async (req, res, next) => {
+albumsRouter.get('/:id', async (req, res, next) => {
     try {
         const album = await Album.findById(req.params.id);
 
@@ -39,16 +37,15 @@ albumsReducer.get('/:id', async (req, res, next) => {
     }
 });
 
-albumsReducer.post("/", auth, permit('admin'), imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
+albumsRouter.post("/", auth, imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
     try {
         const albumData = {
+            user: req.user,
             title: req.body.title,
             artist: req.body.artist,
             image: req.file ? req.file.filename : null,
-            release: parseFloat(req.body.release),
+            release: req.body.release,
         }
-
-        console.log(albumData)
 
         const album = new Album(albumData);
         await album.save();
@@ -58,7 +55,7 @@ albumsReducer.post("/", auth, permit('admin'), imagesUpload.single('image'), asy
     }
 });
 
-albumsReducer.patch("/:id/togglePublished", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+albumsRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
     try {
 
         if (!req.params.id) {
@@ -85,7 +82,7 @@ albumsReducer.patch("/:id/togglePublished", auth, permit('admin'), async (req: R
     }
 });
 
-albumsReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+albumsRouter.delete("/:id", auth, async (req: RequestWithUser, res, next) => {
     try {
         if (!req.params.id) {
             res.status(400).send({"error": "Id items params must be in url"});
@@ -113,4 +110,4 @@ albumsReducer.delete("/:id", auth, permit('admin'), async (req: RequestWithUser,
     }
 });
 
-export default albumsReducer;
+export default albumsRouter;
