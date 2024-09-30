@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { getArtistById } from '../../features/artists/artistsThunk';
-import {deleteTrack, getTracksByAlbumId, trackPublish} from '../../features/tracks/tracksThunk';
-import {getAlbumsById} from '../../features/albums/albumThunk';
+import {
+  deleteTrack,
+  getTracksByAlbumId,
+  trackPublish,
+} from '../../features/tracks/tracksThunk';
+import { getAlbumsById } from '../../features/albums/albumThunk';
 import TrackCard from '../../components/TrackCard/TrackCard';
 import Spinner from '../../UI/Spinner/Spinner';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -15,10 +19,11 @@ import {
 } from '../../features/artists/artistsSlice';
 import {
   selectIsLoadingTracks,
-  selectTracks, selectUnpublishedTracks,
+  selectTracks,
+  selectUnpublishedTracks,
 } from '../../features/tracks/tracksSlice';
 import { NavLink } from 'react-router-dom';
-import {selectUser} from "../../features/users/usersSlice";
+import { selectUser } from '../../features/users/usersSlice';
 
 const Tracks = () => {
   const dispatch = useAppDispatch();
@@ -56,7 +61,7 @@ const Tracks = () => {
       await dispatch(trackPublish(id));
       await dispatch(getTracksByAlbumId(albumId));
     }
-  }
+  };
   return (
     <div className="container">
       {tracksLoading && artistLoading && albumsLoading ? (
@@ -78,24 +83,46 @@ const Tracks = () => {
           ) : (
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 justify-content-around">
               {tracks.map((track) => (
-                <TrackCard key={track._id + 1} track={track} trackDelete={trackDeleter} trackPublish={publishTrack} />
+                <TrackCard
+                  key={track._id + 1}
+                  track={track}
+                  trackDelete={trackDeleter}
+                  trackPublish={publishTrack}
+                />
               ))}
             </div>
           )}
-          {user ? <h3>{user.role === 'admin' ? 'Unpublished tracks:' : 'Your unpublished tracks:'}</h3> : null}
-          {user ? <>{unpublishedTracks.length > 0 ? (
-              <>
-                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
-                  <>
-                    {unpublishedTracks.map((track) => (
+          {user ? (
+            <h3>
+              {user.role === 'admin'
+                ? 'Unpublished tracks:'
+                : 'Your unpublished tracks:'}
+            </h3>
+          ) : null}
+          {user ? (
+            <>
+              {unpublishedTracks.length > 0 ? (
+                <>
+                  <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
+                    <>
+                      {unpublishedTracks.map((track) => (
                         <>
-                          {user._id === track.user || user.role === 'admin' ? <TrackCard key={track._id + 1} track={track} trackDelete={trackDeleter} trackPublish={publishTrack}/> : null}
+                          {user._id === track.user || user.role === 'admin' ? (
+                            <TrackCard
+                              key={track._id + 1}
+                              track={track}
+                              trackDelete={trackDeleter}
+                              trackPublish={publishTrack}
+                            />
+                          ) : null}
                         </>
-                    ))}
-                  </>
-                </div>
-              </>
-          ) : null}</> : null}
+                      ))}
+                    </>
+                  </div>
+                </>
+              ) : null}
+            </>
+          ) : null}
         </div>
       )}
     </div>

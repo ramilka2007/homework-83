@@ -5,7 +5,7 @@ import FileInput from '../../UI/FileInput/FileInput';
 import { ArtistForm } from '../../types';
 import { addArtist, getArtists } from '../../features/artists/artistsThunk';
 import { Grid } from '@mui/material';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const ArtistForm = () => {
   const dispatch = useAppDispatch();

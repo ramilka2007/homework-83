@@ -7,7 +7,7 @@ import { AlbumForm } from '../../types';
 import { getArtists } from '../../features/artists/artistsThunk';
 import { selectArtists } from '../../features/artists/artistsSlice';
 import { Alert } from '@mui/material';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const AlbumForm = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const AlbumForm = () => {
     e.preventDefault();
 
     await dispatch(addAlbum(newAlbum));
-    navigate('/')
+    navigate('/');
   };
 
   const changeForm = (

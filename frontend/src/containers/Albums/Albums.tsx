@@ -4,18 +4,21 @@ import {
   selectArtist,
   selectIsLoadingArtist,
 } from '../../features/artists/artistsSlice';
-import {albumPublish, deleteAlbum, getAlbumsByArtist} from '../../features/albums/albumThunk';
 import {
-  getArtistById,
-} from '../../features/artists/artistsThunk';
+  albumPublish,
+  deleteAlbum,
+  getAlbumsByArtist,
+} from '../../features/albums/albumThunk';
+import { getArtistById } from '../../features/artists/artistsThunk';
 import AlbumCard from '../../components/AlbumCard/AlbumCard';
 import Spinner from '../../UI/Spinner/Spinner';
 import {
   selectAlbums,
-  selectIsLoadingAlbum, selectUnpublishedAlbums,
+  selectIsLoadingAlbum,
+  selectUnpublishedAlbums,
 } from '../../features/albums/albumSlice';
 import { NavLink } from 'react-router-dom';
-import {selectUser} from "../../features/users/usersSlice";
+import { selectUser } from '../../features/users/usersSlice';
 
 const Albums = () => {
   const dispatch = useAppDispatch();
@@ -44,21 +47,21 @@ const Albums = () => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const publishAlbum = async (id: string) => {
     try {
-      await dispatch(albumPublish(id))
+      await dispatch(albumPublish(id));
       if (artistId) {
         await dispatch(getAlbumsByArtist(artistId));
         if (user.role === 'admin') {
-          await dispatch(getAlbumsByArtist(artistId))
+          await dispatch(getAlbumsByArtist(artistId));
         }
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -78,24 +81,46 @@ const Albums = () => {
           ) : (
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-around">
               {albums.map((album) => (
-                <AlbumCard key={album._id} album={album} albumDelete={albumDeleter} albumPublish={publishAlbum} />
+                <AlbumCard
+                  key={album._id}
+                  album={album}
+                  albumDelete={albumDeleter}
+                  albumPublish={publishAlbum}
+                />
               ))}
             </div>
           )}
-          {user ? <h3>{user.role === 'admin' ? 'Unpublished albums:' : 'Your unpublished albums:'}</h3> : null}
-          {user ? <>{unpublishedAlbums.length > 0 ? (
-              <>
-                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
-                  <>
-                    {unpublishedAlbums.map((album) => (
+          {user ? (
+            <h3>
+              {user.role === 'admin'
+                ? 'Unpublished albums:'
+                : 'Your unpublished albums:'}
+            </h3>
+          ) : null}
+          {user ? (
+            <>
+              {unpublishedAlbums.length > 0 ? (
+                <>
+                  <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
+                    <>
+                      {unpublishedAlbums.map((album) => (
                         <>
-                          {user._id === album.user || user.role === 'admin' ? <AlbumCard key={album._id} album={album} albumDelete={albumDeleter} albumPublish={publishAlbum}/> : null}
+                          {user._id === album.user || user.role === 'admin' ? (
+                            <AlbumCard
+                              key={album._id}
+                              album={album}
+                              albumDelete={albumDeleter}
+                              albumPublish={publishAlbum}
+                            />
+                          ) : null}
                         </>
-                    ))}
-                  </>
-                </div>
-              </>
-          ) : null}</> : null}
+                      ))}
+                    </>
+                  </div>
+                </>
+              ) : null}
+            </>
+          ) : null}
         </div>
       )}
     </div>

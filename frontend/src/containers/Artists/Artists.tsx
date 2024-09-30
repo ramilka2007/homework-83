@@ -2,17 +2,18 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   selectArtists,
-  selectIsLoadingArtist, selectUnpublishedArtists,
+  selectIsLoadingArtist,
+  selectUnpublishedArtists,
 } from '../../features/artists/artistsSlice';
 import Spinner from '../../UI/Spinner/Spinner';
 import {
   artistPublish,
   deleteArtist,
   getArtists,
-  getUnpublishedArtists
+  getUnpublishedArtists,
 } from '../../features/artists/artistsThunk';
 import ArtistCard from '../../components/ArtistCard/ArtistCard';
-import {selectUser} from "../../features/users/usersSlice";
+import { selectUser } from '../../features/users/usersSlice';
 
 const Artists = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const Artists = () => {
   useEffect(() => {
     dispatch(getArtists());
     if (user) {
-        dispatch(getUnpublishedArtists())
+      dispatch(getUnpublishedArtists());
     }
   }, [dispatch]);
 
@@ -33,20 +34,20 @@ const Artists = () => {
       await dispatch(deleteArtist(id));
       await dispatch(getArtists());
       if (user) {
-          await dispatch(getUnpublishedArtists())
+        await dispatch(getUnpublishedArtists());
       }
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const publishArtist = async (id: string) => {
-    await dispatch(artistPublish(id))
+    await dispatch(artistPublish(id));
     await dispatch(getArtists());
     if (user.role === 'admin') {
-      await dispatch(getUnpublishedArtists())
+      await dispatch(getUnpublishedArtists());
     }
-  }
+  };
 
   return (
     <div className="container">
@@ -59,22 +60,31 @@ const Artists = () => {
           ) : (
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 justify-content-around mb-5">
               {artists.map((artist) => (
-                <ArtistCard key={artist._id} artist={artist} artistDelete={artistDeleter} artistPublish={publishArtist}/>
+                <ArtistCard
+                  key={artist._id}
+                  artist={artist}
+                  artistDelete={artistDeleter}
+                  artistPublish={publishArtist}
+                />
               ))}
             </div>
           )}
           {unpublishedArtists.length > 0 ? (
-              <>
-                <h3>Unpublished artists:</h3>
-                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
-                  <>
-                    {unpublishedArtists.map((artist) => (
-                        <ArtistCard key={artist._id} artist={artist} artistDelete={artistDeleter}
-                                    artistPublish={publishArtist}/>
-                    ))}
-                  </>
-                </div>
-              </>
+            <>
+              <h3>Unpublished artists:</h3>
+              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
+                <>
+                  {unpublishedArtists.map((artist) => (
+                    <ArtistCard
+                      key={artist._id}
+                      artist={artist}
+                      artistDelete={artistDeleter}
+                      artistPublish={publishArtist}
+                    />
+                  ))}
+                </>
+              </div>
+            </>
           ) : null}
         </>
       )}

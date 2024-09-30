@@ -23,19 +23,36 @@ const TrackCard: React.FC<Props> = ({ track, trackDelete, trackPublish }) => {
     }
   };
   return (
-      <div className="col mb-2" onClick={() => clickHandler(track._id)}>
-        <div className="d-flex align-items-center border border-black mb-2 rounded-4 text-black text-decoration-none p-3">
-          <div className="text-start">
-            <h5>
-              #{track.number} - {track.title}
-            </h5>
-            <p className="opacity-75 text-end mb-0">Duration: {track.duration}</p>
-          </div>
+    <div className="col mb-2" onClick={() => clickHandler(track._id)}>
+      <div className="d-flex align-items-center border border-black mb-2 rounded-4 text-black text-decoration-none p-3">
+        <div className="text-start">
+          <h5>
+            #{track.number} - {track.title}
+          </h5>
+          <p className="opacity-75 text-end mb-0">Duration: {track.duration}</p>
         </div>
-        {user ? <>
-          {user._id === track.user || user.role === 'admin' ? <button className="btn btn-danger me-2" onClick={() => trackDelete(track._id)}>Delete</button> : null}
-          {user.role === 'admin' ? <button className="btn btn-primary" onClick={() => trackPublish(track._id)}>{track.isPublished ? <>Unpublish</> : <>Publish</>}</button> : null}</> : null}
       </div>
+      {user ? (
+        <>
+          {user._id === track.user || user.role === 'admin' ? (
+            <button
+              className="btn btn-danger me-2"
+              onClick={() => trackDelete(track._id)}
+            >
+              Delete
+            </button>
+          ) : null}
+          {user.role === 'admin' ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => trackPublish(track._id)}
+            >
+              {track.isPublished ? <>Unpublish</> : <>Publish</>}
+            </button>
+          ) : null}
+        </>
+      ) : null}
+    </div>
   );
 };
 

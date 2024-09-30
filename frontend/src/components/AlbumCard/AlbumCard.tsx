@@ -4,8 +4,8 @@ import { API_URL } from '../../constants';
 import { CardMedia, styled } from '@mui/material';
 import { Album } from '../../types';
 import NoAlbumImage from '../../assets/no-image.png';
-import {useAppSelector} from "../../app/hooks";
-import {selectUser} from "../../features/users/usersSlice";
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../features/users/usersSlice';
 
 const ImageCardMedia = styled(CardMedia)({
   width: '100px',
@@ -25,7 +25,11 @@ const AlbumCard: React.FC<Props> = ({ album, albumDelete, albumPublish }) => {
   return (
     <div className="col d-block border mb-2 rounded-4">
       <NavLink
-        to={album.isPublished ? `/tracks?album=${album._id}&artist=${album.artist._id}` : ''}
+        to={
+          album.isPublished
+            ? `/tracks?album=${album._id}&artist=${album.artist._id}`
+            : ''
+        }
         className="text-black text-decoration-none"
       >
         <div className="d-flex align-items-center">
@@ -39,9 +43,26 @@ const AlbumCard: React.FC<Props> = ({ album, albumDelete, albumPublish }) => {
           </div>
         </div>
       </NavLink>
-      {user ? <>
-        {user._id === album.user || user.role === 'admin' ? <button className="btn btn-danger me-2" onClick={() => albumDelete(album._id)}>Delete</button> : null}
-        {user.role === 'admin' ? <button className="btn btn-primary" onClick={() => albumPublish(album._id)}>{album.isPublished ? <>Unpublish</> : <>Publish</>}</button> : null}</> : null}
+      {user ? (
+        <>
+          {user._id === album.user || user.role === 'admin' ? (
+            <button
+              className="btn btn-danger me-2"
+              onClick={() => albumDelete(album._id)}
+            >
+              Delete
+            </button>
+          ) : null}
+          {user.role === 'admin' ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => albumPublish(album._id)}
+            >
+              {album.isPublished ? <>Unpublish</> : <>Publish</>}
+            </button>
+          ) : null}
+        </>
+      ) : null}
     </div>
   );
 };

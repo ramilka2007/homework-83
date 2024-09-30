@@ -28,7 +28,9 @@ const tracksSlice = createSlice({
       })
       .addCase(getTracksByAlbumId.fulfilled, (state, { payload: tracks }) => {
         state.tracks = tracks.filter((track) => track.isPublished === true);
-        state.unpublishedTracks = tracks.filter((track) => track.isPublished === false);
+        state.unpublishedTracks = tracks.filter(
+          (track) => track.isPublished === false,
+        );
         state.isLoading = false;
       })
       .addCase(getTracksByAlbumId.rejected, (state) => {
@@ -45,4 +47,5 @@ const tracksSlice = createSlice({
 
 export const tracksReducer = tracksSlice.reducer;
 
-export const { selectTracks, selectUnpublishedTracks, selectIsLoadingTracks } = tracksSlice.selectors;
+export const { selectTracks, selectUnpublishedTracks, selectIsLoadingTracks } =
+  tracksSlice.selectors;

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Album } from '../../types';
-import {getAlbumsByArtist, getAlbumsById} from './albumThunk';
+import { getAlbumsByArtist, getAlbumsById } from './albumThunk';
 
 interface albumsState {
   albums: Album[];
@@ -32,7 +32,9 @@ const albumsSlice = createSlice({
       })
       .addCase(getAlbumsByArtist.fulfilled, (state, { payload: albums }) => {
         state.albums = albums.filter((album) => album.isPublished === true);
-        state.unpublishedAlbums = albums.filter((album) => album.isPublished === false);
+        state.unpublishedAlbums = albums.filter(
+          (album) => album.isPublished === false,
+        );
       })
       .addCase(getAlbumsByArtist.rejected, (state) => {
         state.isError = true;
@@ -53,7 +55,6 @@ const albumsSlice = createSlice({
         state.isError = true;
         state.album = null;
       });
-
   },
   selectors: {
     selectAlbums: (state) => state.albums,
@@ -65,5 +66,9 @@ const albumsSlice = createSlice({
 
 export const albumsReducer = albumsSlice.reducer;
 
-export const { selectAlbums, selectIsLoadingAlbum, selectUnpublishedAlbums, selectAlbum } =
-  albumsSlice.selectors;
+export const {
+  selectAlbums,
+  selectIsLoadingAlbum,
+  selectUnpublishedAlbums,
+  selectAlbum,
+} = albumsSlice.selectors;
