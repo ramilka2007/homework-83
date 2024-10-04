@@ -43,7 +43,8 @@ const ArtistCard: React.FC<Props> = ({
       </NavLink>
       {user ? (
         <>
-          {user._id === artist.user || user.role === 'admin' ? (
+          {(user._id === artist.user && !artist.isPublished) ||
+          user.role === 'admin' ? (
             <button
               className="btn btn-danger me-2"
               onClick={() => artistDelete(artist._id)}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, register } from './usersThunk';
+import { googleLogin, login, register } from './usersThunk';
 import { GlobalError, User, ValidationError } from '../../types';
 
 interface UsersState {
@@ -8,6 +8,7 @@ interface UsersState {
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
+  googleAccount: boolean;
 }
 
 const initialState: UsersState = {
@@ -16,6 +17,7 @@ const initialState: UsersState = {
   registerError: null,
   loginLoading: false,
   loginError: null,
+  googleAccount: false,
 };
 
 export const usersSlice = createSlice({
@@ -29,6 +31,7 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
+        state.googleAccount = false;
         state.registerLoading = true;
         state.registerError = null;
       })
@@ -43,6 +46,7 @@ export const usersSlice = createSlice({
 
     builder
       .addCase(login.pending, (state) => {
+        state.googleAccount = false;
         state.loginLoading = true;
         state.loginError = null;
       })
@@ -54,13 +58,28 @@ export const usersSlice = createSlice({
         state.loginLoading = false;
         state.loginError = error || null;
       });
+
+    builder
+      .addCase(googleLogin.pending, (state) => {
+        state.loginLoading = true;
+        state.googleAccount = false;
+        state.loginError = null;
+      })
+      .addCase(googleLogin.fulfilled, (state, { payload: user }) => {
+        state.loginLoading = false;
+        state.googleAccount = true;
+        state.user = user;
+      })
+      .addCase(googleLogin.rejected, (state, { payload: error }) => {
+        state.loginLoading = false;
+        state.loginError = error || null;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
-    selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
-    selectLoginLoading: (state) => state.loginLoading,
     selectLoginError: (state) => state.loginError,
+    selectGoogleAccount: (state) => state.googleAccount,
   },
 });
 
@@ -70,8 +89,7 @@ export const { unsetUser } = usersSlice.actions;
 
 export const {
   selectUser,
-  selectRegisterLoading,
   selectRegisterError,
-  selectLoginLoading,
   selectLoginError,
+  selectGoogleAccount,
 } = usersSlice.selectors;

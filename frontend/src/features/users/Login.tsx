@@ -14,8 +14,9 @@ import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { LoginMutation } from '../../types';
-import { login } from './usersThunk';
+import { googleLogin, login } from './usersThunk';
 import { selectLoginError } from './usersSlice';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,13 @@ const Login = () => {
     }
   };
 
+  const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
+    if (credentialResponse.credential) {
+      await dispatch(googleLogin(credentialResponse.credential)).unwrap();
+      navigate('/');
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -65,6 +73,15 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+
+        <Box sx={{ pt: 2 }}>
+          <GoogleLogin
+            onSuccess={googleLoginHandler}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+          />
+        </Box>
 
         <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
           <Grid container spacing={2}>

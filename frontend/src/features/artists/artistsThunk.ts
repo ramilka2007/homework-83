@@ -15,19 +15,10 @@ export const getArtistById = createAsyncThunk(
   },
 );
 
-export const getUnpublishedArtists = createAsyncThunk(
-  'artists/get-unpublished',
-  async () => {
-    const { data: artists } = await axiosApi.get(`/artists/unpublished`);
-    return artists ?? [];
-  },
-);
-
 export const addArtist = createAsyncThunk(
   'artists/add-new-artist',
   async (newArtist) => {
     const formData = new FormData();
-    console.log(newArtist);
 
     const keys = Object.keys(newArtist) as (keyof ArtistForm)[];
     keys.forEach((key) => {

@@ -103,25 +103,28 @@ const TrackForm = () => {
           </label>
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="category">
-            <span>Albums:</span>
-            <select
-              className="form-control"
-              name="album"
-              onChange={changeForm}
-              value={newTrack.album}
-              required
-            >
-              <option value={''}>Choose one album:</option>
-              {albums.map((album) => (
-                <option key={album._id} value={album._id}>
-                  {album.title}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+        {newTrack.artist !== '' ? (
+          <div className="mb-3">
+            <label htmlFor="category">
+              <span>Albums:</span>
+              <select
+                className="form-control"
+                name="album"
+                onChange={changeForm}
+                value={newTrack.album}
+                required
+              >
+                <option value={''}>Choose one album:</option>
+                {albums.map((album) => (
+                  <option key={album._id} value={album._id}>
+                    {album.title}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        ) : null}
+
         <div className="mb-3 w-75 mx-auto">
           <label htmlFor="name" className="form-label">
             Number:

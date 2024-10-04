@@ -8,18 +8,22 @@ import { persistor, store } from './app/store';
 import theme from './theme';
 import { PersistGate } from 'redux-persist/integration/react';
 import { addInterceptors } from './axiosApi';
+import { GOOGLE_CLIENT_ID } from './constants';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 addInterceptors(store);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
-        </ThemeProvider>
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </GoogleOAuthProvider>,
 );

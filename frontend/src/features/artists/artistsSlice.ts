@@ -1,14 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Artist } from '../../types';
-import {
-  getArtistById,
-  getArtists,
-  getUnpublishedArtists,
-} from './artistsThunk';
+import { getArtistById, getArtists } from './artistsThunk';
 
 interface artistsState {
   artists: Artist[];
-  unpubArtists: Artist[];
+  unpublishedArtists: Artist[];
   artist: Artist | null;
   isLoading: boolean;
   addLoading: boolean;
@@ -17,7 +13,7 @@ interface artistsState {
 
 const initialState: artistsState = {
   artists: [],
-  unpubArtists: [],
+  unpublishedArtists: [],
   artist: null,
   isLoading: false,
   addLoading: false,
@@ -36,7 +32,10 @@ const artistsSlice = createSlice({
       })
       .addCase(getArtists.fulfilled, (state, { payload: artists }) => {
         state.addLoading = false;
-        state.artists = artists;
+        state.artists = artists.filter((artist) => artist.isPublished === true);
+        state.unpublishedArtists = artists.filter(
+          (artist) => artist.isPublished === false,
+        );
       })
       .addCase(getArtists.rejected, (state) => {
         state.addLoading = false;
@@ -56,27 +55,10 @@ const artistsSlice = createSlice({
         state.addLoading = false;
         state.isError = true;
       });
-
-    builder
-      .addCase(getUnpublishedArtists.pending, (state) => {
-        state.addLoading = true;
-        state.isError = false;
-      })
-      .addCase(
-        getUnpublishedArtists.fulfilled,
-        (state, { payload: artists }) => {
-          state.addLoading = false;
-          state.unpubArtists = artists;
-        },
-      )
-      .addCase(getUnpublishedArtists.rejected, (state) => {
-        state.addLoading = false;
-        state.isError = true;
-      });
   },
   selectors: {
     selectArtists: (state) => state.artists,
-    selectUnpublishedArtists: (state) => state.unpubArtists,
+    selectUnpublishedArtists: (state) => state.unpublishedArtists,
     selectArtist: (state) => state.artist,
     selectIsLoadingArtist: (state) => state.isLoading,
   },

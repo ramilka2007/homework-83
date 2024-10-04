@@ -43,7 +43,6 @@ const ArtistForm = () => {
   ) => {
     const { name, files } = event.target;
     const value = files && files[0] ? files[0] : null;
-    console.log(newArtist.image);
 
     setNewArtist((prevState) => ({
       ...prevState,
@@ -77,7 +76,6 @@ const ArtistForm = () => {
           <textarea
             name="information"
             id="information"
-            required
             className="form-control"
             value={newArtist.information}
             onChange={changeForm}

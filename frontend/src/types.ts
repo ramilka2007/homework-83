@@ -1,6 +1,8 @@
 export interface RegisterMutation {
   username: string;
+  displayName: string;
   password: string;
+  avatar: File | null;
 }
 
 export interface User {
@@ -8,6 +10,8 @@ export interface User {
   username: string;
   role: string;
   token: string;
+  displayName: string;
+  avatar?: string;
 }
 
 export interface ValidationError {
@@ -71,13 +75,13 @@ export interface AlbumForm {
   artist: string;
   title: string;
   release: string;
-  image: string | null;
+  image: File | null;
 }
 
 export interface ArtistForm {
   name: string;
   information: string;
-  image: string | null;
+  image: File | null;
 }
 
 export interface TrackForm {

@@ -10,7 +10,6 @@ import {
   artistPublish,
   deleteArtist,
   getArtists,
-  getUnpublishedArtists,
 } from '../../features/artists/artistsThunk';
 import ArtistCard from '../../components/ArtistCard/ArtistCard';
 import { selectUser } from '../../features/users/usersSlice';
@@ -24,18 +23,12 @@ const Artists = () => {
 
   useEffect(() => {
     dispatch(getArtists());
-    if (user) {
-      dispatch(getUnpublishedArtists());
-    }
   }, [dispatch]);
 
   const artistDeleter = async (id: string) => {
     try {
       await dispatch(deleteArtist(id));
       await dispatch(getArtists());
-      if (user) {
-        await dispatch(getUnpublishedArtists());
-      }
     } catch (e) {
       console.log(e);
     }
@@ -44,9 +37,6 @@ const Artists = () => {
   const publishArtist = async (id: string) => {
     await dispatch(artistPublish(id));
     await dispatch(getArtists());
-    if (user.role === 'admin') {
-      await dispatch(getUnpublishedArtists());
-    }
   };
 
   return (
@@ -69,21 +59,31 @@ const Artists = () => {
               ))}
             </div>
           )}
-          {unpublishedArtists.length > 0 ? (
+          {user ? (
             <>
-              <h3>Unpublished artists:</h3>
-              <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
+              {unpublishedArtists.length > 0 ? (
                 <>
-                  {unpublishedArtists.map((artist) => (
-                    <ArtistCard
-                      key={artist._id}
-                      artist={artist}
-                      artistDelete={artistDeleter}
-                      artistPublish={publishArtist}
-                    />
-                  ))}
+                  <h3>Unpublished artists:</h3>
+                  <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 gap-5">
+                    <>
+                      {unpublishedArtists.map((artist) => (
+                        <>
+                          {user._id === artist.user || user.role === 'admin' ? (
+                            <>
+                              <ArtistCard
+                                key={artist._id + 'unpublished'}
+                                artist={artist}
+                                artistDelete={artistDeleter}
+                                artistPublish={publishArtist}
+                              />
+                            </>
+                          ) : null}
+                        </>
+                      ))}
+                    </>
+                  </div>
                 </>
-              </div>
+              ) : null}
             </>
           ) : null}
         </>

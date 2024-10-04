@@ -4,12 +4,14 @@ import { NavLink } from 'react-router-dom';
 import { User } from '../../types';
 import { useAppDispatch } from '../../app/hooks';
 import { logout } from '../../features/users/usersThunk';
+import { API_URL } from '../../constants';
 
 interface Props {
   user: User;
+  googleAccount: boolean;
 }
 
-const UserMenu: React.FC<Props> = ({ user }) => {
+const UserMenu: React.FC<Props> = ({ user, googleAccount }) => {
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -29,7 +31,32 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     <>
       <Box>
         <Button onClick={handleClick} className="text-white">
-          Hello, {user.username}
+          Hello, {user.displayName ? user.displayName : user.username}!
+          {googleAccount ? (
+            <>
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt=""
+                  width="50px"
+                  height="50px"
+                  className="rounded-circle ms-2"
+                />
+              ) : null}
+            </>
+          ) : (
+            <>
+              {user.avatar ? (
+                <img
+                  src={API_URL + '/' + user.avatar}
+                  alt=""
+                  width="50px"
+                  height="50px"
+                  className="rounded-circle ms-2"
+                />
+              ) : null}
+            </>
+          )}
         </Button>
 
         <Menu
